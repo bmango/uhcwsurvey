@@ -3,3 +3,115 @@
 
 // Base-theme overrides.
 @import 'overrides';
+
+@blue: #005EB8;
+
+body {
+}
+
+h1.page-header {
+  border: none;
+  margin: 30px 0 5px;
+}
+
+#navbar.navbar-default {
+  background-color: transparent;
+  border: none;
+  border-bottom: 30px solid @blue;
+  border-radius: 0;
+
+  .navbar-header {
+    max-width: 50%;
+    float: left;
+  }
+
+  #navbar-collapse {
+    max-width: 49%;
+    float: right;
+  }
+
+  > div.container-fluid {
+    .container;
+    margin: auto;
+  }
+}
+
+.nav {
+  &:after {
+    content: "";
+    clear: left;
+  }
+}
+
+body .main-container {
+  .container;
+  margin: auto;
+}
+
+h1, h2 ,h3, h4 {
+  color: @blue;
+  font-weight: bold;
+}
+
+#block-block-1 {
+  float: right;
+}
+
+h1.page-header {
+  clear: right;
+
+  @media @tablet {
+    clear: none;
+  }
+}
+
+.we-listen {
+  float: right;
+  position: relative;
+  top: -25px;
+  margin: 0 0 20px 50px;
+
+  @media @tablet {
+    top: -26px;
+  }
+}
+
+#uhcw-form-code {
+  margin: 20px 0;
+
+  .form-survey {
+    padding: 25px 25px;
+    font-size: 1.7em;
+    text-align: center;
+    letter-spacing: .5em;
+    border: 2px solid @blue;
+    border-radius: 0;
+  }
+}
+
+.front div.alert-block {
+  float: left;
+  clear: left;
+}
+
+ul.nav-tabs {
+  clear: left;
+
+  .not-front & {
+    clear: both;
+  }
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+.btn-primary {
+  background-color: @blue;
+  border: none;
+}
+
+.btn {
+  border-radius: 0;
+}
