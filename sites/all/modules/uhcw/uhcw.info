@@ -1,0 +1,4 @@
+name = UHCW Custom Functions
+description = "various functions"
+core = 7.x
+version 7.0

@@ -1,0 +1,93 @@
+<?php
+
+function uhcw_form_code($form, &$form_state) {
+  $form['lookup_code'] = array(
+    '#title' => t('Please enter your code right here:'),
+    '#type' => 'textfield',
+    '#description' => t('please enter your code'),
+    '#attributes' => array('class' => array('form-survey')),
+    '#maxlength' => 5,
+    '#required' => TRUE,
+  );
+  //    '#element_validate' => array('uhcw_form_code_element_validate'),
+
+  $form['submit'] = array (
+    '#type' => 'submit',
+    '#value' => t('Submit'),
+  );
+  return $form;
+}
+
+
+function uhcw_form_code_submit($form, &$form_state) {
+  // Submission logic.
+  $code = $form_state['values']['lookup_code'];
+
+  $types = drupal_get_query_parameters();
+  $type = 'none';
+
+  if(isset($types['survey']))
+  {
+    $type = $types['survey'];
+  }
+
+  $survey = uhcw_get_survey($code, $type);
+  //drupal_set_message(t('Thanks for filling out the form. Your code is %code',array('%code' => $survey)));
+  drupal_goto($survey);
+}
+
+
+function uhcw_form_code_validate($form, &$form_state) {
+  $types = drupal_get_query_parameters();
+  $type = 'none';
+
+  if(!isset($types['survey'])) {
+    form_set_error('lookup_code', t('There has been an error. Please check you have the correct link for the page.'));
+  }
+
+  $survey = array('web', 'kiosk', 'mobile', 'paper');
+  if (!in_array($types['survey'], $survey)) {
+    form_set_error('lookup_code', t('There has been an error. Please check you have the correct link for the page.'));
+  }
+
+  $code = $form_state['values']['lookup_code'];
+
+  if (!preg_match('/^[A-Za-z_][A-Za-z\d_]*$/', $code)) {
+    form_set_error('lookup_code', t('Please check your code and enter it again'));
+  }
+  elseif (!db_query('SELECT s.field_web_survey_url survey FROM `field_data_field_code`c, field_data_field_web_survey s WHERE (c.entity_id = s.entity_id) AND c.field_code_value= :code LIMIT 1', array(':code' => $code))->fetchField()) {
+    form_set_error('lookup_code', t('We were unable to find the code %code. Please check your code and enter it again',array('%code' => $code)));
+  }
+}
+
+function uhcw_get_survey($code, $type) {
+  //$survey = 'none';
+
+  switch ($type) {
+    case 'web':
+      $survey = db_query('SELECT s.field_web_survey_url survey FROM `field_data_field_code`c, field_data_field_web_survey s WHERE (c.entity_id = s.entity_id) AND c.field_code_value= :code LIMIT 1', array(':code' => $code))->fetchField();
+      break;
+    case 'mobile':
+      $survey = db_query('SELECT s.field_superlite_survey_url survey FROM `field_data_field_code`c, field_data_field_superlite_survey s WHERE (c.entity_id = s.entity_id) AND c.field_code_value= :code LIMIT 1', array(':code' => $code))->fetchField();
+      break;
+    case 'kiosk':
+      $survey = db_query('SELECT s.field_kiosk_survey_url survey FROM `field_data_field_code`c, field_data_field_kiosk_survey s WHERE (c.entity_id = s.entity_id) AND c.field_code_value= :code LIMIT 1', array(':code' => $code))->fetchField();
+      break;
+    case 'paper':
+      $survey = db_query('SELECT s.field_paper_survey_url survey FROM `field_data_field_code`c, field_data_field_paper_survey s WHERE (c.entity_id = s.entity_id) AND c.field_code_value= :code LIMIT 1', array(':code' => $code))->fetchField();
+      break;
+  }
+
+  //$result = db_query('SELECT c.entity_id id, c.field_code_value code, s.field_survey_url survey FROM `field_data_field_code`c, field_data_field_survey s WHERE (c.entity_id = s.entity_id) AND c.field_code_value= :code LIMIT 1', array(':code' => $code));
+  //$survey = db_query('SELECT s.field_web_survey_url survey FROM `field_data_field_code`c, field_data_field_web_survey s WHERE (c.entity_id = s.entity_id) AND c.field_code_value= :code LIMIT 1', array(':code' => $code))->fetchField();
+
+  if ($survey) {
+    return $survey;
+  }
+  else {
+    return 'none';
+    }
+  //$sql = 'SELECT c.entity_id id, c.field_code_value code, s.field_survey_url survey FROM `field_data_field_code`c, field_data_field_survey s WHERE (c.entity_id = s.entity_id) AND c.field_code_value=\'J1\';'
+}
+
+
