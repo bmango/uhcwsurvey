@@ -2,10 +2,10 @@
 
 function uhcw_form_code($form, &$form_state) {
   $form['lookup_code'] = array(
-    '#title' => t('Please enter your code right here:'),
+    '#title' => t('Please enter your code below:'),
     '#type' => 'textfield',
-    '#description' => t('please enter your code'),
-    '#attributes' => array('class' => array('form-survey')),
+    //'#attributes' => array('class' => array('form-survey')),
+    '#attributes' => array('class' => array('form-survey'), 'tabindex' => array(1)),
     '#maxlength' => 5,
     '#required' => TRUE,
   );
@@ -53,10 +53,10 @@ function uhcw_form_code_validate($form, &$form_state) {
   $code = $form_state['values']['lookup_code'];
 
   if (!preg_match('/^[A-Za-z_][A-Za-z\d_]*$/', $code)) {
-    form_set_error('lookup_code', t('Please check your code and enter it again'));
+    form_set_error('lookup_code', t('Code not recognised. Please try again.'));
   }
   elseif (!db_query('SELECT s.field_web_survey_url survey FROM `field_data_field_code`c, field_data_field_web_survey s WHERE (c.entity_id = s.entity_id) AND c.field_code_value= :code LIMIT 1', array(':code' => $code))->fetchField()) {
-    form_set_error('lookup_code', t('We were unable to find the code %code. Please check your code and enter it again',array('%code' => $code)));
+    form_set_error('lookup_code', t('Code not recognised. Please try again.'));
   }
 }
 
@@ -89,5 +89,3 @@ function uhcw_get_survey($code, $type) {
     }
   //$sql = 'SELECT c.entity_id id, c.field_code_value code, s.field_survey_url survey FROM `field_data_field_code`c, field_data_field_survey s WHERE (c.entity_id = s.entity_id) AND c.field_code_value=\'J1\';'
 }
-
-

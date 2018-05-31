@@ -134,7 +134,7 @@
     <?php endif; ?>
 
     <section<?php print $content_column_class; ?>>
-        <img class="we-listen" src="/sites/all/themes/uhcw/images/NHS-we-care,-we-listen-logo.png" />
+        <img class="we-listen" src="/sites/all/themes/uhcw/images/Dcals.png" width="400" />
       <?php if (!empty($page['highlighted'])): ?>
         <div class="highlighted jumbotron"><?php print render($page['highlighted']); ?></div>
       <?php endif; ?>
@@ -163,7 +163,6 @@
         ?>
 
         <div class="no-code">
-            <p>Not got a code? Enter UH4CW to access the survey.</p>
             <p>&nbsp;</p>
             <p>&nbsp;</p>
         </div>

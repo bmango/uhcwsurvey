@@ -1,4 +1,11 @@
+<<<<<<< HEAD
 name = UHCW Custom Functions
 description = "various functions"
 core = 7.x
 version 7.0
+=======
+name = UHCW Custom Functions
+description = "various functions"
+core = 7.x
+version 7.0
+>>>>>>> fc4ec47f6d613e33e4812c2b7d7ea3ecdf239353

@@ -7639,6 +7639,9 @@ body .main-container > .navbar-collapse {
     margin-left: 0;
   }
 }
+.region-content {
+  clear: left;
+}
 h1,
 h2,
 h3,
@@ -7678,6 +7681,8 @@ h1.page-header {
   letter-spacing: .5em;
   border: 2px solid #005EB8;
   border-radius: 0;
+  max-width: 500px;
+  text-transform: uppercase;
 }
 .front div.alert-block {
   float: left;

@@ -25,3 +25,10 @@ function uhcw_preprocess_page(&$variables) {
 
   $variables['code'] = drupal_get_form('uhcw_form_code');
 }
+
+//drupal_add_js("$('#edit-lookup-code').focus();", 'inline');
+
+drupal_add_js(
+  "jQuery(document).ready(function () { jQuery('#edit-lookup-code').focus(); });",
+  array('type' => 'inline', 'scope' => 'footer')
+);
